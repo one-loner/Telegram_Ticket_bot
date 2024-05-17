@@ -84,8 +84,10 @@ def save(message):
         doc3 = open('/etc/telebot-ticket/'+str(message.chat.id), 'w')
         doc3.write(t)
         doc3.close()
-        bot.send_message('Сюда вводим id группы в Telegram, куда будут отправляться заявки', t)
-        newticket = bot.send_message(message.chat.id, 'Спасибо за обращение. Номер вашей заявки '+str(nz)+'. Мы свяжемся с вами в ближайшее время. Если вы хотите оставить ещё одну заявку нажмите /start')
+        bot.send_message('<Сюда вводим id чата, в который будут поступать заявки>', t)
+        user_markup = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+        user_markup.row('/start')
+        newticket = bot.send_message(message.chat.id, 'Спасибо за обращение. Номер вашей заявки '+str(nz)+'. Мы свяжемся с вами в ближайшее время. Если вы хотите оставить ещё одну заявку нажмите /start', reply_markup=user_markup)
         bot.register_next_step_handler(newticket, user)
     except:
         keyboard = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
@@ -115,11 +117,13 @@ def addservices(message):
      nzn = random.randint(1000000, 9999999)
      nz = 'Номер заявки: #'+str(nzn)+'\nСоздана - '+str(current_datetime)+'\n'+ocl
      print(nz)
-     bot.send_message('Сюда вводим id группы в Telegram, куда будут отправляться заявки', nz)
+     bot.send_message('<Сюда вводим id чата, в который будут поступать заявки>', nz)
      nzw=open('/etc/telebot-ticket/'+str(message.chat.id),'w')
      nzw.write(nz)
      nzw.close()
-     newticket = bot.send_message(message.chat.id, 'Спасибо за обращение. Номер вашей заявки '+str(nzn)+'. Мы свяжемся с вами в ближайшее время. Если вы хотите оставить ещё одну заявку, нажмите /start')
+     user_markup = telebot.types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+     user_markup.row('/start')
+     newticket = bot.send_message(message.chat.id, 'Спасибо за обращение. Номер вашей заявки '+str(nzn)+'. Мы свяжемся с вами в ближайшее время. Если вы хотите оставить ещё одну заявку, нажмите /start', reply_markup=user_markup)
      bot.register_next_step_handler(newticket, user)
 
 
